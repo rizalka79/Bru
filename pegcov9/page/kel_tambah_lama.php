@@ -1,19 +1,27 @@
 <?php
-  $kel_nik = $_GET['kel_nik'];
-  $queryx  = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nik'");
-  $datax   = mysqli_fetch_array($queryx);
-  $kel_idx  = $datax['kel_id'];
-  $kel_nikx = $datax['kel_nik'];
+  $peg_nik        = $_GET['peg_nik'];
+  $query_peg      = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$peg_nik' ");
+  $data_peg       = mysqli_fetch_array($query_peg);
+  $peg_nama       = $data_peg['peg_nama'];
+
+  $kel_peg_id     = $data_peg['peg_id'];
+  $kel_peg_nama   = $data_peg['peg_nama'];
+  $kel_peg_nip    = $data_peg['peg_nip'];
+  $kel_peg_nik    = $data_peg['peg_nik'];
+
+  $kel_nik        = $_GET['kel_nik'];
+  $query_kel      = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nik'");
+  $data_kel       = mysqli_fetch_array($query_kel);
+  $kel_nama       = $data_kel['kel_nama'];
+
+  $kel_nama       = $data_kel['kel_nama'];
+  $kel_jk         = $data_kel['kel_jk'];
+  $kel_hubungan   = $data_kel['kel_hubungan'];
+  $kel_tgllahir   = $data_kel['kel_tgllahir'];
+  $kel_nik        = $data_kel['kel_nik'];
+  $kel_stapeg     = $data_kel['kel_stapeg'];
+  $kel_nip        = $data_kel['kel_nip'];
 ?>
-
-
-
-
-<head>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-</head>
 
 <!DOCTYPE html>
 <html>
@@ -37,51 +45,45 @@
           <div class="row">
             <div class="col-md-12">
               <form method="POST">
-                <div class="form-group" >
-                  <label>Nama Pegawai</label> <br>
-                  <select  class="myselect" name="kel_peg_nik" required="required" style="width:1210px;">
-                    <option class="form-control"></option>
-                    <?php
-                      $sql = $koneksi->query("SELECT * FROM tb_peg");
-                        while ($data=$sql->fetch_assoc()) {
-                    ?>
-                        <option class="form-control" value="<?php echo $data['peg_nik']; ?>"><?php echo $data['peg_nik']." - ".$data['peg_nama']; ?></option>
-                    <?php 
-                      } 
-                    ?>
-                  </select>
-                </div>
 
-                <div class="form-group" >
-                  <label>Nama Keluarga Covid</label> <br>
-                  <select  class="myselect" name="kel_nik" required="required" style="width:1210px;">
-                    <option class="form-control"></option>
-                    <?php
-                      $sql = $koneksi->query("SELECT * FROM tb_kel ORDER BY kel_id DESC");
-                        while ($datal=$sql->fetch_assoc()) {
-                    ?>
-                        <option class="form-control" value="<?php echo $datal['kel_nik']; ?>"><?php echo $datal['kel_nik']." - ".$datal['kel_nama']; ?></option>
-                    <?php 
-                      } 
-                    ?>
-                  </select>
+                <div class="form-group">
+                  <label>NIK - Nama Pegawai</label><font color="red"> *</font><br>
+                  <input class="form-control" name="kel_peg_nik" required="required" value="<?php echo $peg_nik." - ".$peg_nama  ;?>" readonly>
                 </div>
 
                 <div class="form-group">
-                  <label>Tanggal Hasil Swab Positif</label>
-                  <input class="form-control" name="kel_tglswab" type="date" required="required" />
+                  <label>NIK - Nama Keluarga Covid</label><font color="red"> *</font><br>
+                  <input class="form-control" name="kel_nik" required="required" value="<?php echo $kel_nik." - ".$kel_nama  ;?>" readonly>
                 </div>
 
                 <div class="form-group">
-                  <label>Kondisi</label>
-                  <select name="kel_kondisi" class="form-control" required="required">
+                  <label>Tanggal Melakukan Swab</label>
+                  <input class="form-control" name="kel_tglswab" type="date"/>
+                </div>
+
+                <div class="form-group">
+                  <label>Tanggal Hasil Swab</label>
+                  <input class="form-control" name="kel_tglhasil" type="date" />
+                </div>
+
+                <div class="form-group">
+                  <label>Status Rawat</label><font color="red"> *</font><br>
+                  <select name="kel_starawat" class="form-control" required="required">
                     <option></option>
                     <option class="form-control">Isman</option>
                     <option class="form-control">Rujuk</option>
+                  </select>  
+                </div>
+
+                <div class="form-group">
+                  <label>Status Akhir</label><font color="red"> *</font><br>
+                  <select name="kel_staakhir" class="form-control" required="required">
+                    <option></option>
+                    <option class="form-control">Dalam Proses</option>
                     <option class="form-control">Sembuh</option>
                     <option class="form-control">Meninggal</option>
                   </select>  
-                </div>
+                </div>     
 
                 <div class="form-group">
                     <label>Keterangan</label><textarea class="form-control" name="kel_ket"> 
@@ -89,75 +91,73 @@
                 </div>    
 
                 <div class="form-group">
-                  <label>Tanggal Kondisi</label>
+                  <label>Tanggal Kondisi</label><font color="red"> *</font><br>
                   <input class="form-control" name="kel_tgl" type="date" required="required" value="<?php echo date('Y-m-d'); ?>" readonly/>
-                </div>                           
-<!-- /////////////////////////////////////////////////////////////////////////////////////////////   -->
-                   
+                </div>
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////   -->                   
                   <input name="fsimpan" type="submit"  class="btn btn-sm btn-primary" value="Simpan">
-                  <a class="btn btn-sm btn-danger" href="?menu=kel_data&kel_nik=<?php echo $kel_nik ;?>">Batal</a>
+                  <a class="btn btn-sm btn-danger" href="?menu=kel_data&peg_nik=<?php echo $peg_nik; ?>&kel_nik=<?php echo $kel_nik; ?>">Batal</a>
               </form>
               <?php 
                 if (isset($_POST['fsimpan'])) {
                   $kel_chosen       = $_POST['kel_peg_nik'];
-                  $query = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kel_chosen'");
-                  $chosen = mysqli_fetch_array($query);
-                  $kel_chosenl       = $_POST['kel_nik'];
-                  $queryl = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_chosenl'");
-                  $chosenl = mysqli_fetch_array($queryl);
-
-                  $kel_peg_id       = $chosen['peg_id'];
-                  $kel_peg_nama     = $chosen['peg_nama'];
-                  $kel_peg_nip      = $chosen['peg_nip'];
-                  $kel_peg_nik      = $chosen['peg_nik'];
-
-                  $kel_nama         = $chosenl['kel_nama'];
-                  $kel_jk           = $chosenl['kel_jk'];
-                  $kel_hubungan     = $chosenl['kel_hubungan'];
-                  $kel_tgllahir     = $chosenl['kel_tgllahir'];
-                  $kel_nik          = $chosenl['kel_nik'];
+                  $query            = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kel_chosen'");
+                  $chosen           = mysqli_fetch_array($query);
+                  $kel_chosenl      = $_POST['kel_nik'];
+                  $queryl           = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_chosenl'");
+                  $chosenl          = mysqli_fetch_array($queryl);
 
                   $kel_tglswab      = $_POST['kel_tglswab'];
-                  $kel_kondisi      = $_POST['kel_kondisi'];
+                  $kel_tglhasil     = $_POST['kel_tglhasil'];
+                  $kel_starawat     = $_POST['kel_starawat'];
+                  $kel_staakhir     = $_POST['kel_staakhir'];
                   $kel_ket          = $_POST['kel_ket'];
                   $kel_tgl          = $_POST['kel_tgl'];
                   $kel_tglinput     = date('Y-m-d');                            
 //////////////////////////////////////////////////////////   
                   $q ="INSERT INTO tb_kel (
-                  kel_peg_id, 
-                  kel_peg_nama, 
-                  kel_peg_nip,
-                  kel_peg_nik, 
-                  kel_nama,
-                  kel_jk,
-                  kel_hubungan,
-                  kel_tgllahir,
-                  kel_nik,
-                  kel_tglswab, 
-                  kel_kondisi, 
-                  kel_ket, 
-                  kel_tgl, 
-                  kel_tglinput
-                ) VALUES (
-                '$kel_peg_id', 
-                '$kel_peg_nama', 
-                '$kel_peg_nip', 
-                '$kel_peg_nik', 
-                '$kel_nama', 
-                '$kel_jk', 
-                '$kel_hubungan', 
-                '$kel_tgllahir', 
-                '$kel_nik',
-                '$kel_tglswab', 
-                '$kel_kondisi', 
-                '$kel_ket', 
-                '$kel_tgl', 
-                '$kel_tglinput')";
+                    kel_peg_id, 
+                    kel_peg_nama, 
+                    kel_peg_nip,
+                    kel_peg_nik, 
+                    kel_nama,
+                    kel_jk,
+                    kel_hubungan,
+                    kel_tgllahir,
+                    kel_nik,
+                    kel_stapeg,
+                    kel_nip,
+                    kel_tglswab, 
+                    kel_tglhasil, 
+                    kel_starawat, 
+                    kel_staakhir, 
+                    kel_ket, 
+                    kel_tgl, 
+                    kel_tglinput
+                  ) VALUES (
+                    '$kel_peg_id', 
+                    '$kel_peg_nama', 
+                    '$kel_peg_nip', 
+                    '$kel_peg_nik', 
+                    '$kel_nama', 
+                    '$kel_jk', 
+                    '$kel_hubungan', 
+                    '$kel_tgllahir', 
+                    '$kel_nik',
+                    '$kel_stapeg',
+                    '$kel_nip',
+                    '$kel_tglswab', 
+                    '$kel_tglhasil', 
+                    '$kel_starawat', 
+                    '$kel_staakhir', 
+                    '$kel_ket', 
+                    '$kel_tgl', 
+                    '$kel_tglinput')";
                   mysqli_query($koneksi,$q);
               ?>
                 <script type="text/javascript">
                   alert('Berhasil menambah data kondisi keluarga covid');
-                  document.location.href="?menu=kel_data&kel_nik=<?php echo $kel_nik ;?>";
+                  document.location.href="?menu=kel_data&peg_nik=<?php echo $peg_nik; ?>&kel_nik=<?php echo $kel_nik; ?>";
                 </script>
               <?php } ?>
             </div>
@@ -165,7 +165,3 @@
         </div>
       </div>
     </section>
-
-    <script type="text/javascript">
-      $(".myselect").select2();
-</script>

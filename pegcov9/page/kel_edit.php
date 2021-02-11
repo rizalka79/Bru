@@ -34,7 +34,6 @@
             <div class="col-md-12">
               <form method="POST">
 
-
                 <div class="form-group" >
                   <label>Nama Pegawai</label> <br>
                   <select  class="myselect" name="kel_peg_nik" required="required" style="width:1210px;">
@@ -129,16 +128,15 @@
                   <label>Tanggal Kondisi</label>
                   <input class="form-control" name="kel_tgl" type="date" required="required" value="<?php echo $data['kel_tgl']; ?>" readonly/>
                 </div>                
-<!-- /////////////////////////////////////////////////////////////////////////////////////////////   -->
-                   
-                  <input name="fsimpan" type="submit"  class="btn btn-sm btn-primary" value="Simpan">
-                  <a class="btn btn-sm btn-danger" href="?menu=kel_data&kel_nik=<?php echo $kel_nik ;?>">Batal</a>
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////   -->                   
+                <input name="fsimpan" type="submit"  class="btn btn-sm btn-primary" value="Simpan">
+                <a class="btn btn-sm btn-danger" href="?menu=kel_data&kel_nik=<?php echo $kel_nik ;?>">Batal</a>
               </form>
               <?php 
                 if (isset($_POST['fsimpan'])) {
                   $kel_chosen       = $_POST['kel_peg_nik'];
-                  $query = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kel_chosen'");
-                  $chosen = mysqli_fetch_array($query);
+                  $query            = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kel_chosen'");
+                  $chosen           = mysqli_fetch_array($query);
 
                   $kel_peg_id       = $chosen['peg_id'];
                   $kel_peg_nama     = $chosen['peg_nama'];
@@ -161,7 +159,24 @@
                   $kel_tgl          = $_POST['kel_tgl'];
                   $kel_tglinput     = date('Y-m-d');                
 //////////////////////////////////////////////////////////   
-                  $q ="UPDATE tb_kel SET kel_peg_id='$kel_peg_id', kel_peg_nama='$kel_peg_nama', kel_peg_nip='$kel_peg_nip', kel_peg_nik='$kel_peg_nik', kel_nama='$kel_nama', kel_jk='$kel_jk', kel_hubungan='$kel_hubungan', kel_tgllahir='$kel_tgllahir', kel_nik='$kel_nik', kel_tglswab='$kel_tglswab', kel_tglhasil='$kel_tglhasil', kel_starawat='$kel_starawat', kel_staakhir='$kel_staakhir', kel_ket='$kel_ket', kel_tgl='$kel_tgl', kel_tglinput='$kel_tglinput' WHERE kel_id='$kel_id' ";
+                  $q ="UPDATE tb_kel SET 
+                    kel_peg_id    = '$kel_peg_id', 
+                    kel_peg_nama  = '$kel_peg_nama', 
+                    kel_peg_nip   = '$kel_peg_nip', 
+                    kel_peg_nik   = '$kel_peg_nik', 
+                    kel_nama      = '$kel_nama', 
+                    kel_jk        = '$kel_jk', 
+                    kel_hubungan  = '$kel_hubungan', 
+                    kel_tgllahir  = '$kel_tgllahir', 
+                    kel_nik       = '$kel_nik', 
+                    kel_tglswab   = '$kel_tglswab', 
+                    kel_tglhasil  = '$kel_tglhasil', 
+                    kel_starawat  = '$kel_starawat', 
+                    kel_staakhir  = '$kel_staakhir', 
+                    kel_ket       = '$kel_ket', 
+                    kel_tgl       = '$kel_tgl', 
+                    kel_tglinput  = '$kel_tglinput' 
+                    WHERE kel_id='$kel_id' ";
                   mysqli_query($koneksi,$q);
               ?>
                 <script type="text/javascript">

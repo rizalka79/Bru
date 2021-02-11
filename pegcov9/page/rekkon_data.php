@@ -27,6 +27,7 @@
                   <th>No</th>
                   <th>Tahun</th>
                   <th>Bulan</th>
+                  <th>Minggu</th>
                   <th>Status Rawat : Isman</th>
                   <th>Status Rawat : Rujuk</th>
                   <th>Status Akhir : Dalam Proses</th>
@@ -39,13 +40,15 @@
               <tbody>
           <?php
               $no = 1;
-              $sql = $koneksi->query("SELECT * FROM tb_rekkon ORDER BY rekkon_tahun DESC");
+              $sql = $koneksi->query("SELECT * FROM tb_rekkon ORDER BY rekkon_tahun DESC, rekkon_bulan DESC");
               while ($data=$sql->fetch_assoc()) {
           ?>
             <tr>
                 <td> <?php echo $no++; ?> </td>
-                <td> <?php echo $data['rekkon_tahun']; ?></td>
-                <td> <?php echo $data['rekkon_bulan']; ?></td>
+                <td> <?php echo $data['rekkon_tahun']; ?></td>                
+                <td> <?php $bulan_nama = date("F", mktime(0, 0, 0, $data['rekkon_bulan'], 10)); ?> 
+                     <?php echo $bulan_nama; ?></td>
+                <td> <?php echo $data['rekkon_minggu']; ?></td> 
                 <td> <?php echo $data['rekkon_srisman']; ?></td>
                 <td> <?php echo $data['rekkon_srrujuk']; ?></td>
                 <td> <?php echo $data['rekkon_saproses']; ?></td>        

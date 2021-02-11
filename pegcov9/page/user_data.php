@@ -30,6 +30,8 @@
 		              <th>Telepon</th>
 		              <th>Akses</th>
 		              <th>Organisasi</th>
+		              <th>Satuan Org.</th>
+		              <th>Unit Org.</th>
 		              <th>Username</th>
 		              <th>NIP</th>
 		              <th>NIK</th>
@@ -49,18 +51,33 @@
 				        <td> <?php echo $data['user_telp']; ?></td>
 				        <td> <?php echo $data['user_akses']; ?></td>
 				        <td> <?php echo $data['user_org']; ?></td>
+				        <td> <?php echo $data['user_orgsat']; ?></td>
+				        <td> <?php echo $data['user_orgunit']; ?></td>
 				        <td> <?php echo $data['user_name']; ?></td>
 				        <td> <?php echo $data['user_nip']; ?></td>
 				        <td> <?php echo $data['user_nik']; ?></td>
 				        <td>
 				        	<?php 
 				        		if($data['user_id']==$profil['user_id']){ ?>
-									<a href="?menu=profil_edit" class="btn btn-sm btn-primary" title="Edit dari profil <?php echo $data['user_nama'];?>"><span class="fa fa-edit"></a>  
+									<a 	href="?menu=profil_edit" 
+										class="btn btn-sm btn-primary" 
+										title="Edit dari profil <?php echo $data['user_nama'];?>">
+										<span class="fa fa-edit">
+									</a>  
 				          	<?php }
 				         		elseif($data['user_akses']=='Super'){ }
 						        else { ?>
-									<a href="?menu=user_edit&user_id=<?php echo $data['user_id']; ?>" class="btn btn-sm btn-success" title="Edit <?php echo $data['user_nama'];?>"><span class="fa fa-edit"></a>
-									<a onclick="return confirm('Anda yakin menghapus data user <?php echo $data['user_nama']; ?> ?')" href="?menu=user_hapus&user_id=<?php echo $data['user_id']; ?>" class="btn btn-sm btn-danger" title="Hapus <?php echo $data['user_nama'];?>" ><span class="fa fa-trash"></a>
+									<a 	href="?menu=user_edit&user_id=<?php echo $data['user_id']; ?>" 
+										class="btn btn-sm btn-success" 
+										title="Edit <?php echo $data['user_nama'];?>">
+										<span class="fa fa-edit">
+									</a>
+									<a 	onclick="return confirm('Anda yakin menghapus data user <?php echo $data['user_nama']; ?> ?')" 
+										href="?menu=user_hapus&user_id=<?php echo $data['user_id']; ?>" 
+										class="btn btn-sm btn-danger" 
+										title="Hapus <?php echo $data['user_nama'];?>" >
+										<span class="fa fa-trash">
+									</a>
 							<?php }?>
 				        </td>
 				    </tr>

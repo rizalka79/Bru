@@ -1,8 +1,7 @@
 <?php
-  $peg_id = $_GET['peg_id'];
-  $queryx  = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_id='$peg_id'");
-  $datax   = mysqli_fetch_array($queryx);
-  $peg_idx	= $datax['peg_id'];
+  $peg_nik 		= $_GET['peg_nik'];
+  $query_peg  	= mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$peg_nik'");
+  $data_peg   	= mysqli_fetch_array($query_peg);
 ?>
 
 <!DOCTYPE html>
@@ -16,12 +15,18 @@
 	    <h3><span class="fa fa-male"></span>
 		    Data Kondisi Pegawai Covid
 		    <?php
-		      $qjumlah = mysqli_query($koneksi,"SELECT * FROM tb_kon WHERE kon_peg_id='$peg_idx'");
+		      $qjumlah = mysqli_query($koneksi,"SELECT * FROM tb_kon WHERE kon_peg_nik='$peg_nik'");
 		      $jumlah = mysqli_num_rows($qjumlah);
 		    ?>
 		    <button class="btn btn-sm btn-default"><span class="badge"><?php echo $jumlah; ?></span></button>
-		    <a href="?menu=kon_data&peg_id=<?php echo $peg_idx; ?>" class="btn btn-sm btn-primary"><span class="fa fa-refresh"></a>
-		    <a href="?menu=kon_tambah&peg_id=<?php echo $peg_id;?>" class="btn btn-sm btn-success">Tambah Kondisi <span class="fa fa-plus"></a>
+		    <a  href="?menu=kon_data&peg_nik=<?php echo $peg_nik; ?>" 
+		    	class="btn btn-sm btn-primary">
+		    	<span class="fa fa-refresh">
+		    </a>
+		    <a  href="?menu=kon_tambah&peg_nik=<?php echo $peg_nik;?>" 
+		    	class="btn btn-sm btn-success">Tambah Kondisi 
+		    	<span class="fa fa-plus">
+		    </a>
 		</h3>
 	  </div>
 	</div>
@@ -36,14 +41,14 @@
 	            	<div class="col-md-8">
 						<div class="panel-body">
 							<table class="table" cellpadding="8" cellspacing="8">
-								<tr><th>Nama Pegawai</th><td>:</td> <td><?php echo $datax['peg_nama']; ?></td></tr>
-								<tr><th>Jenis Kelamin </th><td>:</td> <td><?php echo $datax['peg_jk']; ?></td></tr>
-								<tr><th>Tanggal Lahir </th><td>:</td> <td><?php echo $datax['peg_tgllahir']; ?></td></tr>	
-								<tr><th>NIK </th><td>:</td> <td><?php echo $datax['peg_nik']; ?></td></tr>	
-								<tr><th>NIP </th><td>:</td> <td><?php echo $datax['peg_nip']; ?></td></tr>	
-								<tr><th>Status Pegawai </th><td>:</td> <td><?php echo $datax['peg_stapeg']; ?></td>
-								<tr><th>Organisasi </th><td>:</td> <td><?php echo $datax['peg_org']; ?></td>
-								<tr><th>Org. Unit </th><td>:</td> <td><?php echo $datax['peg_orgunit']; ?></td>
+								<tr><th>Nama Pegawai</th><td>:</td> 	<td><?php echo $data_peg['peg_nama']; ?></td></tr>
+								<tr><th>Jenis Kelamin </th><td>:</td> 	<td><?php echo $data_peg['peg_jk']; ?></td></tr>
+								<tr><th>Tanggal Lahir </th><td>:</td> 	<td><?php echo $data_peg['peg_tgllahir']; ?></td></tr>	
+								<tr><th>NIK </th><td>:</td> 			<td><?php echo $data_peg['peg_nik']; ?></td></tr>	
+								<tr><th>NIP </th><td>:</td> 			<td><?php echo $data_peg['peg_nip']; ?></td></tr>	
+								<tr><th>Status Pegawai </th><td>:</td> 	<td><?php echo $data_peg['peg_stapeg']; ?></td>
+								<tr><th>Organisasi </th><td>:</td> 		<td><?php echo $data_peg['peg_org']; ?></td>
+								<tr><th>Org. Unit </th><td>:</td> 		<td><?php echo $data_peg['peg_orgunit']; ?></td>
 								</tr>														
 							</table>
 						</div>
@@ -72,23 +77,30 @@
 	            <tbody>
 					<?php
 					    $no = 1;
-					    $sql = $koneksi->query("SELECT * FROM tb_kon WHERE kon_peg_id='$peg_idx' ORDER BY kon_id DESC");
-					    while ($data=$sql->fetch_assoc()) {
+					    $sql_kon = $koneksi->query("SELECT * FROM tb_kon WHERE kon_peg_nik='$peg_nik' ORDER BY kon_id DESC");
+					    while ($data_kon=$sql_kon->fetch_assoc()) {
 					?>
 				    <tr>
 				        <td> <?php echo $no++; ?> </td>
-				        <td> <?php echo $data['kon_tglswab']; ?></td>
-				        <td> <?php echo $data['kon_tglhasil']; ?></td>
-				        <td> <?php echo $data['kon_starawat']; ?></td>
-				        <td> <?php echo $data['kon_staakhir']; ?></td>
-				        <td> <?php echo $data['kon_ket']; ?></td>
-				        <td> <?php echo $data['kon_tgl']; ?></td>
-				        <td> <?php echo $data['kon_tglinput']; ?></td>
-				        
+				        <td> <?php echo $data_kon['kon_tglswab']; ?></td>
+				        <td> <?php echo $data_kon['kon_tglhasil']; ?></td>
+				        <td> <?php echo $data_kon['kon_starawat']; ?></td>
+				        <td> <?php echo $data_kon['kon_staakhir']; ?></td>
+				        <td> <?php echo $data_kon['kon_ket']; ?></td>
+				        <td> <?php echo $data_kon['kon_tgl']; ?></td>
+				        <td> <?php echo $data_kon['kon_tglinput']; ?></td>				        
 				        <td>
-							<a href="?menu=kon_edit&kon_id=<?php echo $data['kon_id']; ?>" class="btn btn-sm btn-success" title="Edit <?php echo $data['kon_peg_nama'];?>"><span class="fa fa-edit"></span></a>
-
-							<a onclick="return confirm('Anda yakin menghapus data kondisi pegawai covid <?php echo $data['kon_nama']; ?> ?')" href="?menu=kon_hapus&kon_id=<?php echo $data['kon_id']; ?>" class="btn btn-sm btn-danger" title="Hapus <?php echo $data['kon_nama'];?>" ><span class="fa fa-trash"></span> </a>
+							<a  href="?menu=kon_edit&kon_id=<?php echo $data_kon['kon_id']; ?>" 
+								class="btn btn-sm btn-success" 
+								title="Edit <?php echo $data_kon['kon_peg_nama'];?>">
+								<span class="fa fa-edit"></span>
+							</a>
+							<a 	onclick="return confirm('Anda yakin menghapus data kondisi pegawai covid <?php echo $data_kon['kon_nama']; ?> ?')" 
+								href="?menu=kon_hapus&peg_nik=<?php echo $data_kon['kon_peg_nik'];?>&kon_id=<?php echo $data_kon['kon_id'];?>" 
+								class="btn btn-sm btn-danger" 
+								title="Hapus <?php echo $data_kon['kon_peg_nama'];?>" >
+								<span class="fa fa-trash"></span>
+							</a>
 				        </td>
 				    </tr>
 	      			<?php 

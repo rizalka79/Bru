@@ -1,9 +1,8 @@
 <?php
-  $kel_nik = $_GET['kel_nik'];
-  $queryx  = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nik'");
-  $datax   = mysqli_fetch_array($queryx);
-  $kel_idx	= $datax['kel_id'];
-  $kel_nikx	= $datax['kel_nik'];
+  $peg_nik 		= $_GET['peg_nik'];
+  $kel_nik 		= $_GET['kel_nik'];
+  $query_kel  	= mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nik'");
+  $data_kel   	= mysqli_fetch_array($query_kel);
 ?>
 
 <!DOCTYPE html>
@@ -17,12 +16,18 @@
 	    <h3><span class="fa fa-database"></span>
 		    Data Keluarga Covid
 		    <?php
-		      $qjumlah = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nikx'");
+		      $qjumlah = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_nik='$kel_nik'");
 		      $jumlah = mysqli_num_rows($qjumlah);
 		    ?>
 		    <button class="btn btn-sm btn-default"><span class="badge"><?php echo $jumlah; ?></span></button>
-		    <!-- <a href="?menu=kel_data" class="btn btn-sm btn-primary"><span class="fa fa-refresh"></a>-->
-		    <a href="?menu=kel_tambah_lama&kel_nik=<?php echo $kel_nikx;?>" class="btn btn-sm btn-success">Tambah Keluarga Covid (Lama)<span class="fa fa-plus"></a>
+		    <a  href="?menu=kel_data&peg_nik=<?php echo $peg_nik; ?>&kel_nik=<?php echo $kel_nik; ?>" 
+		    	class="btn btn-sm btn-primary">
+		    	<span class="fa fa-refresh">
+		    </a>
+		    <a  href="?menu=kel_tambah_lama&peg_nik=<?php echo $peg_nik;?>&kel_nik=<?php echo $kel_nik;?>" 
+		    	class="btn btn-sm btn-success">Tambah Keluarga Covid (Lama)
+		    	<span class="fa fa-plus">
+		    </a>
 		</h3>
 	  </div>
 	</div>
@@ -37,14 +42,13 @@
 	            	<div class="col-md-8">
 						<div class="panel-body">
 							<table class="table" cellpadding="8" cellspacing="8">
-								<tr><th>Nama Keluarga</th><td>:</td> <td><?php echo $datax['kel_nama']; ?></td></tr>
-								<tr><th>Jenis Kelamin </th><td>:</td> <td><?php echo $datax['kel_jk']; ?></td></tr>
-								<tr><th>Hubungan </th><td>:</td> <td><?php echo $datax['kel_hubungan']; ?></td></tr>
-								<tr><th>Tanggal Lahir </th><td>:</td> <td><?php echo $datax['kel_tgllahir']; ?></td></tr>	
-								<tr><th>NIK </th><td>:</td> <td><?php echo $datax['kel_nik']; ?></td></tr>
-								<tr><th>Status Pegawai </th><td>:</td> <td><?php echo $datax['kel_stapeg']; ?></td></tr>
-								<tr><th>Unit Kerja </th><td>:</td> <td><?php echo $datax['kel_unitkerja']; ?></td></tr>	
-								<tr><th>NIP </th><td>:</td> <td><?php echo $datax['kel_nip']; ?></td></tr>	
+								<tr><th>Nama Keluarga</th><td>:</td> 	<td><?php echo $data_kel['kel_nama']; ?></td></tr>
+								<tr><th>Jenis Kelamin </th><td>:</td> 	<td><?php echo $data_kel['kel_jk']; ?></td></tr>
+								<tr><th>Hubungan </th><td>:</td> 		<td><?php echo $data_kel['kel_hubungan']; ?></td></tr>
+								<tr><th>Tanggal Lahir </th><td>:</td> 	<td><?php echo $data_kel['kel_tgllahir']; ?></td></tr>	
+								<tr><th>NIK </th><td>:</td> 			<td><?php echo $data_kel['kel_nik']; ?></td></tr>
+								<tr><th>Status Pegawai </th><td>:</td> 	<td><?php echo $data_kel['kel_stapeg']; ?></td></tr>
+								<tr><th>NIP </th><td>:</td> 			<td><?php echo $data_kel['kel_nip']; ?></td></tr>	
 								</tr>														
 							</table>
 						</div>
@@ -74,7 +78,7 @@
 	            <tbody>
 					<?php
 					    $no = 1;
-					    $sql = $koneksi->query("SELECT * FROM tb_kel WHERE kel_nik='$kel_nikx' ORDER BY kel_tgl DESC");
+					    $sql = $koneksi->query("SELECT * FROM tb_kel WHERE kel_nik='$kel_nik' ORDER BY kel_tgl DESC");
 					    while ($data=$sql->fetch_assoc()) {
 					?>
 				    <tr>
@@ -87,8 +91,17 @@
 				        <td> <?php echo $data['kel_tgl']; ?></td>
 				        <td> <?php echo $data['kel_tglinput']; ?></td>
 				        <td>
-							<a href="?menu=kel_edit&kel_id=<?php echo $data['kel_id']; ?>" class="btn btn-sm btn-success" title="Edit <?php echo $data['kel_nama'];?>"><span class="fa fa-edit"></a>
-							<a onclick="return confirm('Anda yakin menghapus data Keluarga Covid <?php echo $data['kel_nama']; ?> ?')" href="?menu=kel_hapus&kel_id=<?php echo $data['kel_id']; ?>" class="btn btn-sm btn-danger" title="Hapus <?php echo $data['kel_nama'];?>" ><span class="fa fa-trash"></a>
+							<a 	href="?menu=kel_edit&kel_id=<?php echo $data['kel_id']; ?>" 
+								class="btn btn-sm btn-success" 
+								title="Edit <?php echo $data['kel_nama'];?>">
+								<span class="fa fa-edit">
+							</a>
+							<a 	onclick="return confirm('Anda yakin menghapus data Keluarga Covid <?php echo $data['kel_nama']; ?> ?')" 
+								href="?menu=kel_hapus&peg_nik=<?php echo $peg_nik;?>&kel_nik=<?php echo $kel_nik;?>&kel_id=<?php echo $data['kel_id']; ?>" 
+								class="btn btn-sm btn-danger" 
+								title="Hapus <?php echo $data['kel_nama'];?>" >
+								<span class="fa fa-trash">
+							</a>
 				        </td>
 				    </tr>
 	      			<?php 

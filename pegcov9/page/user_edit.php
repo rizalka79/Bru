@@ -27,7 +27,7 @@
           <div class="col-md-9">
             <form method="POST">
               <div class="form-group">
-                  <label>Nama</label>
+                  <label>Nama</label><font color="red"> *</font>
                   <input class="form-control" name="nama" required="required" 
                   value="<?php echo $data['user_nama']; ?>"/>
               </div>
@@ -67,22 +67,48 @@
                   </select>
               </div>
 
-                <div class="form-group">
-                    <label>Organisasi</label>
-                    <select name="organisasi" class="form-control" required="required" >
-                    <option class="form-control"></option>
-                    <?php
-                      $sqlo = $koneksi->query("SELECT * FROM tb_org");
-                        while ($datao=$sqlo->fetch_assoc()) {
-                    ?>
-                    <option <?php if($datao['org_nama']==$data['user_org']){ echo "selected";}?>
-                    class="form-control" value="<?php echo $datao['org_nama']; ?>"><?php echo $datao['org_id']." ".$datao['org_nama']; ?></option>
-                    <?php 
-                      } 
-                    ?>
-                    </select> 
-                </div>
+              <div class="form-group">
+                  <label>Organisasi (Eselon 1)</label><font color="red"> *</font>
+                  <select name="user_org" class="form-control" required="required" >
+                  <option class="form-control"></option>
+                  <?php
+                    $sql_org = $koneksi->query("SELECT * FROM tb_org");
+                      while ($data_org=$sql_org->fetch_assoc()) {
+                  ?>
+                  <option <?php if($data_org['org_id']==$data['user_org']){ echo "selected";}?>
+                  class="form-control" value="<?php echo $data_org['org_id']; ?>"><?php echo $data_org['org_id']." - ".$data_org['org_nama']; ?></option>
+                  <?php 
+                    } 
+                  ?>
+                  </select> 
+              </div>
 
+              <div class="form-group">
+                  <label>Satuan Organisasi (Eselon 2)</label><font color="red"> *</font>
+                  <select name="user_orgsat" class="form-control" required="required" >
+                  <option class="form-control"></option>
+                  <?php
+                    $sql_orgsat = $koneksi->query("SELECT * FROM tb_orgsat");
+                      while ($data_orgsat=$sql_orgsat->fetch_assoc()) {
+                  ?>
+                  <option <?php if($data_orgsat['orgsat_id']==$data['user_orgsat']){ echo "selected";}?>
+                  class="form-control" value="<?php echo $data_orgsat['orgsat_id']; ?>"><?php echo $data_orgsat['orgsat_id']." - ".$data_orgsat['orgsat_nama']; ?></option>
+                  <?php 
+                    } 
+                  ?>
+                  </select> 
+              </div>
+
+              <div class="form-group">
+                  <label>Unit Organisasi (Eselon 3)</label><font color="red"> *</font>
+                  <select name="user_orgunit" class="form-control" required="required" >
+                    <option class="form-control"></option>
+                    <option <?php if("AAA"==$data['user_orgunit']){ echo "selected";}?> class="form-control" value="AAA">AAA</option>
+                    <option <?php if("BBB"==$data['user_orgunit']){ echo "selected";}?> class="form-control" value="BBB">BBB</option>
+                    <option <?php if("CCC"==$data['user_orgunit']){ echo "selected";}?> class="form-control" value="CCC">CCC</option>
+                  </select> 
+              </div>
+              
               <div class="form-group">
                   <label>NIK</label>
                   <input class="form-control" name="nip" 
@@ -99,18 +125,20 @@
 
           <?php 
             if (isset($_POST['fsimpan'])) {
-              $nama = $_POST['nama'];
-              $email = $_POST['email'];
-              $telp = $_POST['telp'];
-              $akses = $_POST['akses'];
-              $organisasi = $_POST['organisasi'];
-              $user = $_POST['user'];
-              $pass = md5($_POST['pass']);
-              $pass2 = md5($_POST['pass2']);
-              $pw = ($_POST['pass']);
-              $nip = $_POST['nip'];
-              $nik = $_POST['nik'];
-              $tabel="admin";
+              $nama         = $_POST['nama'];
+              $email        = $_POST['email'];
+              $telp         = $_POST['telp'];
+              $akses        = $_POST['akses'];
+              $user_org     = $_POST['user_org'];
+              $user_orgsat  = $_POST['user_orgsat'];
+              $user_orgunit = $_POST['user_orgunit'];
+              $user         = $_POST['user'];
+              $pass         = md5($_POST['pass']);
+              $pass2        = md5($_POST['pass2']);
+              $pw           = ($_POST['pass']);
+              $nip          = $_POST['nip'];
+              $nik          = $_POST['nik'];
+              $tabel        = "admin";
               ////////////////include "_nama_sama.php";              
               if($pass!=$pass2){
                 ?>
@@ -122,7 +150,19 @@
                   newExit();
               }
               else if ($pw!=""){
-                $q ="UPDATE tb_user SET user_nama='$nama', user_email='$email', user_telp='$telp', user_akses='$akses', user_org='$organisasi', user_name='$user', user_pass='$pass', user_nip='$nip', user_nik='$nik' WHERE user_id='$id'";
+                $q ="UPDATE tb_user SET 
+                  user_nama     = '$nama', 
+                  user_email    = '$email', 
+                  user_telp     = '$telp', 
+                  user_akses    = '$akses', 
+                  user_org      = '$user_org', 
+                  user_orgsat   = '$user_orgsat',
+                  user_orgunit  = '$user_orgunit', 
+                  user_name     = '$user', 
+                  user_pass     = '$pass', 
+                  user_nip      = '$nip', 
+                  user_nik      = '$nik' 
+                  WHERE user_id = '$id'";
                 mysqli_query($koneksi,$q);
                 ?>
                   <script type="text/javascript">
@@ -132,7 +172,18 @@
                 <?php 
               } 
               else {                  
-                $q ="UPDATE tb_user SET user_nama='$nama', user_email='$email', user_telp='$telp', user_akses='$akses', user_org='$organisasi', user_name='$user', user_nip='$nip', user_nik='$nik'  WHERE user_id='$id'";
+                $q ="UPDATE tb_user SET 
+                  user_nama     = '$nama', 
+                  user_email    = '$email', 
+                  user_telp     = '$telp', 
+                  user_akses    = '$akses', 
+                  user_org      = '$user_org', 
+                  user_orgsat   = '$user_orgsat',
+                  user_orgunit  = '$user_orgunit', 
+                  user_name     = '$user', 
+                  user_nip      = '$nip', 
+                  user_nik      = '$nik'  
+                  WHERE user_id = '$id'";
                 mysqli_query($koneksi,$q);
                 ?>
                   <script type="text/javascript">

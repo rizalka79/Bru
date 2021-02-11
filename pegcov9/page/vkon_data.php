@@ -10,12 +10,16 @@
 		    Pegawai Covid
 		    <?php
 				$jumlah=0;
-			    $sql = $koneksi->query("SELECT * FROM tb_peg ORDER BY peg_id DESC");
+			    if ($user_akses=="Super") {
+			      	$sql = $koneksi->query("SELECT * FROM tb_peg ORDER BY peg_id DESC");
+			    }
+			    else {
+			    	$sql = $koneksi->query("SELECT * FROM tb_peg WHERE peg_orgsat='$user_orgsat' ORDER BY peg_id DESC");
+			    }
+			    //$sql = $koneksi->query("SELECT * FROM tb_peg ORDER BY peg_id DESC");
 			    while ($data=$sql->fetch_assoc()) {
-
 			    	$wpeg_id = $data['peg_id'];
 			    	$vcek	= 0;
-
 				    $sqlv = $koneksi->query("SELECT * FROM tb_kon");
 				    while ($datav=$sqlv->fetch_assoc()) {
 			    		$vkon_peg_id = $datav['kon_peg_id'];
@@ -48,20 +52,24 @@
 						<th>NIK</th>
 						<th>Status Pegawai</th>
 						<th>Organisasi</th>
-						<th>Satuan Org.</th>
-						<th>Unit Org.</th>
+						<th>Satuan</th>
+						<th>Unit</th>
 						<th>Opsi</th>
 		            </tr>
 	            </thead>
 	            <tbody>
 					<?php
 					    $no = 1;
-					    $sql = $koneksi->query("SELECT * FROM tb_peg ORDER BY peg_id DESC");
-					    while ($data=$sql->fetch_assoc()) {
 
+					    if ($user_akses=="Super") {
+					    	$sql = $koneksi->query("SELECT * FROM tb_peg ORDER BY peg_id DESC");	
+					    }
+					    else {
+					    	$sql = $koneksi->query("SELECT * FROM tb_peg WHERE peg_orgsat='$user_orgsat' ORDER BY peg_id DESC");
+					    }					    
+					    while ($data=$sql->fetch_assoc()) {
 					    	$wpeg_id = $data['peg_id'];
 					    	$vcek	= 0;
-
 						    $sqlv = $koneksi->query("SELECT * FROM tb_kon");
 						    while ($datav=$sqlv->fetch_assoc()) {
 					    		$vkon_peg_id = $datav['kon_peg_id'];
@@ -86,9 +94,17 @@
 				        	<!--
 							<a href="?menu=kon_edit&peg_id=<?php echo $data['peg_id']; ?>" class="btn btn-sm btn-success" title="Edit <?php echo $data['peg_nama'];?>"><span class="fa fa-edit"></a>	
 							-->					
-							<a onclick="return confirm('Anda yakin menghapus data pegawai <?php echo $data['peg_nama']; ?> ?')" href="?menu=peg_hapus&peg_id=<?php echo $data['peg_id']; ?>" class="btn btn-sm btn-danger" title="Hapus <?php echo $data['peg_nama'];?>" ><span class="fa fa-trash"></a>
-								
-							<a href="?menu=kon_data&peg_id=<?php echo $data['peg_id']; ?>" class="btn btn-sm btn-primary" title="Detail Kondisi <?php echo $data['peg_nama'];?>"><span class="fa fa-eye"></a></a>	
+							<a 	onclick="return confirm('Anda yakin menghapus data pegawai <?php echo $data['peg_nama']; ?> ?')" 
+								href="?menu=vkon_hapus&peg_nik=<?php echo $data['peg_nik']; ?>" 
+								class="btn btn-sm btn-danger" 
+								title="Hapus <?php echo $data['peg_nama'];?>" >
+								<span class="fa fa-trash">
+							</a>								
+							<a 	href="?menu=kon_data&peg_nik=<?php echo $data['peg_nik']; ?>" 
+								class="btn btn-sm btn-primary" 
+								title="Detail Kondisi <?php echo $data['peg_nama'];?>">
+								<span class="fa fa-eye"></a>
+							</a>	
 								<!--
 							<a href="?menu=kel_identitas&peg_id=<?php echo $data['peg_id']; ?>" class="btn btn-sm btn-default" title="Detail Keluarga <?php echo $data['peg_nama'];?>"><span class="fa fa-eye"></a></a>
 							-->

@@ -41,17 +41,42 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Organisasi</label>
-                    <select name="organisasi" class="form-control" required="required" >
+                    <label>Organisasi (Eselon 1)</label><font color="red"> *</font>
+                    <select name="user_org" class="form-control" required="required" >
                     <option class="form-control"></option>
                     <?php
-                      $sqlo = $koneksi->query("SELECT * FROM tb_org");
-                        while ($datao=$sqlo->fetch_assoc()) {
+                      $sql_org = $koneksi->query("SELECT * FROM tb_org");
+                        while ($data_org=$sql_org->fetch_assoc()) {
                     ?>
-                    <option class="form-control" value="<?php echo $datao['org_nama']; ?>"><?php echo $datao['org_id']." ".$datao['org_nama']; ?></option>
+                    <option class="form-control" value="<?php echo $data_org['org_id']; ?>"><?php echo $data_org['org_id']." ".$data_org['org_nama']; ?></option>
                     <?php 
                       } 
                     ?>
+                    </select> 
+                </div>
+
+                <div class="form-group">
+                    <label>Satuan Organisasi (Eselon 2)</label><font color="red"> *</font>
+                    <select name="user_orgsat" class="form-control" required="required" >
+                    <option class="form-control"></option>
+                    <?php
+                      $sql_orgsat = $koneksi->query("SELECT * FROM tb_orgsat");
+                        while ($data_orgsat=$sql_orgsat->fetch_assoc()) {
+                    ?>
+                    <option class="form-control" value="<?php echo $data_orgsat['orgsat_id']; ?>"><?php echo $data_orgsat['orgsat_id']." ".$data_orgsat['orgsat_nama']; ?></option>
+                    <?php 
+                      } 
+                    ?>
+                    </select> 
+                </div>
+
+                <div class="form-group">
+                    <label>Unit Organisasi (Eselon 3)</label><font color="red"> *</font>
+                    <select name="user_orgunit" class="form-control" required="required" >
+                      <option class="form-control"></option>
+                      <option class="form-control" value="AAA">AAA</option>
+                      <option class="form-control" value="BBB">BBB</option>
+                      <option class="form-control" value="CCC">CCC</option>
                     </select> 
                 </div>
 
@@ -68,28 +93,30 @@
                   <input class="form-control" name="pass2" type="password" required="required"/>
                 </div>
                 <div class="form-group">
-                  <label>NIK</label>
-                  <input class="form-control" name="nik" type="number"/>
+                  <label>NIK</label><font color="red"> *</font>
+                  <input class="form-control" name="nik" type="number" required="required" />
                 </div>                
                 <div class="form-group">
-                  <label>NIP</label>
-                  <input class="form-control" name="nip" type="number"/>
+                  <label>NIP</label><font color="red"> *</font>
+                  <input class="form-control" name="nip" type="number" required="required" />
                 </div>
                 <input name="fsimpan" type="submit"  class="btn btn-sm btn-primary" value="Simpan">
                 <a class="btn btn-sm btn-danger" href="?menu=data_admin">Batal</a>
               </form>
               <?php 
                 if (isset($_POST['fsimpan'])) {
-                  $nama   = $_POST['nama'];
-                  $email  = $_POST['email'];
-                  $telp   = $_POST['telp'];
-                  $akses  = $_POST['akses'];
-                  $organisasi  = $_POST['organisasi'];
-                  $user   = $_POST['user'];
-                  $pass   = md5($_POST['pass']);
-                  $pass2  = md5($_POST['pass2']);
-                  $nip    = $_POST['nip'];
-                  $nik    = $_POST['nik'];
+                  $nama           = $_POST['nama'];
+                  $email          = $_POST['email'];
+                  $telp           = $_POST['telp'];
+                  $akses          = $_POST['akses'];
+                  $user_org       = $_POST['user_org'];
+                  $user_orgsat    = $_POST['user_orgsat'];
+                  $user_orgunit   = $_POST['user_orgunit'];
+                  $user           = $_POST['user'];
+                  $pass           = md5($_POST['pass']);
+                  $pass2          = md5($_POST['pass2']);
+                  $nip            = $_POST['nip'];
+                  $nik            = $_POST['nik'];
 ////////////////////////////////////////////////////////// user ganda
                   $sqlx = $koneksi->query("select * from tb_user");
                   while ($datax=$sqlx->fetch_assoc()) {
@@ -112,7 +139,30 @@
                       <?php newExit();
                     }else{
 //////////////////////////////////////////////////////////                      
-                  $q ="INSERT INTO tb_user(user_nama, user_email, user_telp, user_akses, user_org, user_name, user_pass, user_nip, user_nik) VALUES ('$nama', '$email', '$telp', '$akses', '$organisasi', '$user', '$pass', '$nip','$nik') ";
+                  $q ="INSERT INTO tb_user(
+                    user_nama, 
+                    user_email, 
+                    user_telp, 
+                    user_akses, 
+                    user_org, 
+                    user_orgsat, 
+                    user_orgunit, 
+                    user_name, 
+                    user_pass, 
+                    user_nip, 
+                    user_nik
+                  ) VALUES (
+                    '$nama', 
+                    '$email', 
+                    '$telp', 
+                    '$akses', 
+                    '$user_org', 
+                    '$user_orgsat', 
+                    '$user_orgunit', 
+                    '$user', 
+                    '$pass', 
+                    '$nip',
+                    '$nik') ";
                   mysqli_query($koneksi,$q);
                 ?>
                 <script type="text/javascript">

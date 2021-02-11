@@ -40,13 +40,14 @@
               <tbody>
           <?php
               $no = 1;
-              $sql = $koneksi->query("SELECT * FROM tb_rekkel ORDER BY rekkel_tahun DESC");
+              $sql = $koneksi->query("SELECT * FROM tb_rekkel ORDER BY rekkel_tahun DESC, rekkel_bulan DESC");
               while ($data=$sql->fetch_assoc()) {
           ?>
             <tr>
                 <td> <?php echo $no++; ?> </td>
                 <td> <?php echo $data['rekkel_tahun']; ?></td>
-                <td> <?php echo $data['rekkel_bulan']; ?></td>
+                <td> <?php $bulan_nama = date("F", mktime(0, 0, 0, $data['rekkel_bulan'], 10)); ?> 
+                     <?php echo $bulan_nama; ?></td>
                 <td> <?php echo $data['rekkel_srisman']; ?></td>
                 <td> <?php echo $data['rekkel_srrujuk']; ?></td>
                 <td> <?php echo $data['rekkel_saproses']; ?></td>        

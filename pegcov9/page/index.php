@@ -4,11 +4,11 @@
   if($_SESSION['userweb']==""){
     header('location:index.php'); 
   }
-  $qprofil = mysqli_query($koneksi,"SELECT * FROM tb_user WHERE user_id='$_SESSION[userweb]'");
-  $profil = mysqli_fetch_array($qprofil);
-  $organisasi = $profil['user_org'];
+  $qprofil        = mysqli_query($koneksi,"SELECT * FROM tb_user WHERE user_id='$_SESSION[userweb]'");
+  $profil         = mysqli_fetch_array($qprofil);
+  $user_akses     = $profil['user_akses'];
+  $user_orgsat    = $profil['user_orgsat'];
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -24,9 +24,8 @@
     <!-- <link rel="stylesheet" href="../lte/dist/css/skins/skin-blue.min.css"> -->
     <link rel="stylesheet" href="../lte/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="../lte/dist/css/skins/_all-skins.css">
-
     <link rel="icon" href="../lte/favcon/pegcov.ico">
-<!-- style="background-color: #000000 !important"" -->
+    <!-- style="background-color: #000000 !important"" -->
   </head>
   <body class="hold-transition skin-blue sidebar-min">
   <div class="wrapper">
@@ -131,8 +130,10 @@
           $menu=="kel_data"|| 
           $menu=="kel_edit"|| 
           $menu=="kel_tambah"||
+          $menu=="kel_tambah_lama"||
           $menu=="kel_identitas"|| 
-          $menu=="kel_identitas_edit"
+          $menu=="kel_identitas_edit"||
+          $menu=="kel_identitas_hapus"
 
           ){echo "class='active'";} ?>>
             <a href="?menu=peg_data">
@@ -145,7 +146,8 @@
         <li <?php if (
 
           $menu=="vkon_data"||
-          $menu=="vkon_tambah"
+          $menu=="vkon_tambah"||
+          $menu=="vkon_hapus"
 
           ){echo "class='active'";} ?>>
             <a href="?menu=vkon_data">
@@ -157,7 +159,9 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
         <li <?php if (
 
-          $menu=="vkel_data"
+          $menu=="vkel_data"||
+          $menu=="vkel_tambah"||
+          $menu=="vkel_hapus"
 
           ){echo "class='active'";} ?>>
             <a href="?menu=vkel_data">
@@ -233,7 +237,9 @@
           include "user_edit.php";
           break;
 
-          case 'user_hapus': $id=$_GET['user_id']; mysqli_query($koneksi,"DELETE FROM tb_user WHERE user_id='$id'"); 
+          case 'user_hapus': 
+          $user_id    = $_GET['user_id']; 
+          mysqli_query($koneksi,"DELETE FROM tb_user WHERE user_id='$user_id'"); 
           include "user_data.php"; 
           break;
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -248,21 +254,19 @@
           case 'peg_edit':
           include "peg_edit.php";
           break;
-          
-          case 'peg_hapus_semua':                         
-          mysqli_query($koneksi,"DELETE FROM tb_peg"); 
-          include "peg_data.php";
-          break;
 
           case 'peg_hapus': 
-          $id=$_GET['peg_id']; 
-          $query = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_id='$id'");
-          $data = mysqli_fetch_array($query);
-          $ir_nama=$data['peg_nama'];
-          $ir_id=$data['peg_id'];
-          mysqli_query($koneksi,"DELETE FROM tb_peg WHERE peg_id='$id'"); 
+          $peg_nik    = $_GET['peg_nik']; 
+          mysqli_query($koneksi,"DELETE FROM tb_peg WHERE peg_nik = '$peg_nik'");
+          mysqli_query($koneksi,"DELETE FROM tb_kon WHERE kon_peg_nik = '$peg_nik'");
+          mysqli_query($koneksi,"DELETE FROM tb_kel WHERE kel_peg_nik = '$peg_nik'");
           include "peg_data.php"; 
           break;
+
+          //case 'peg_hapus_semua':                         
+          //mysqli_query($koneksi,"DELETE FROM tb_peg"); 
+          //include "peg_data.php";
+          //break;
 ///////////////////////////////////////////////////////////////////////////////////////////
           case 'kon_data':
           include "kon_data.php";
@@ -275,74 +279,38 @@
           case 'kon_edit':
           include "kon_edit.php";
           break;
-          
-          case 'kon_hapus_semua':                         
-          mysqli_query($koneksi,"DELETE FROM tb_kon");
-          include "kon_data.php";
-          break;
 
           case 'kon_hapus': 
-          $id=$_GET['kon_id'];
-          $query = mysqli_query($koneksi,"SELECT * FROM tb_kon WHERE kon_id='$id'");
-          $data = mysqli_fetch_array($query);
-          $kon_nama=$data['kon_nama']; 
-          mysqli_query($koneksi,"DELETE FROM tb_kon WHERE kon_id='$id'"); 
+          $kon_id     = $_GET['kon_id'];
+          mysqli_query($koneksi,"DELETE FROM tb_kon WHERE kon_id='$kon_id'"); 
           include "kon_data.php"; 
           break;
-
-
-
-          case 'vkon_data':
-          include "vkon_data.php";
-          break;
-
-          case 'vkon_tambah':
-          include "vkon_tambah.php";
-          break;
-
-          case 'vkel_data':
-          include "vkel_data.php";
-          break;
+          
+          //case 'kon_hapus_semua':                         
+          //mysqli_query($koneksi,"DELETE FROM tb_kon");
+          //include "kon_data.php";
+          //break;
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-          case 'zpeg_data':
-          include "zpeg_data.php";
-          break;
-
-          case 'zpeg_data2':
-          include "zpeg_data2.php";
-          break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-          case 'kel_data':
-          include "kel_data.php";
+          case 'kel_identitas':
+          include "kel_identitas.php";
           break;
 
           case 'kel_tambah':
           include "kel_tambah.php";
+          break;
+
+          case 'kel_identitas_edit':
+          include "kel_identitas_edit.php";
+          break;
+
+          case 'kel_identitas_hapus':
+          $kel_nik    = $_GET['kel_nik'];
+          mysqli_query($koneksi,"DELETE FROM tb_kel WHERE kel_nik = '$kel_nik'");
+          include "kel_identitas.php";
+          break;
+
+          case 'kel_data':
+          include "kel_data.php";
           break;
 
           case 'kel_tambah_lama':
@@ -352,28 +320,55 @@
           case 'kel_edit':
           include "kel_edit.php";
           break;
-          
-          case 'kel_hapus_semua':                         
-          mysqli_query($koneksi,"DELETE FROM tb_kel");
-          include "kel_data.php";
-          break;
 
           case 'kel_hapus': 
-          $id=$_GET['kel_id'];
-          $query = mysqli_query($koneksi,"SELECT * FROM tb_kel WHERE kel_id='$id'");
-          $data = mysqli_fetch_array($query);
-          $kel_nama=$data['kel_nama']; 
-          mysqli_query($koneksi,"DELETE FROM tb_kel WHERE kel_id='$id'"); 
+          $kel_id    = $_GET['kel_id'];
+          mysqli_query($koneksi,"DELETE FROM tb_kel WHERE kel_id='$kel_id'"); 
           include "kel_data.php"; 
           break;
-
-          case 'kel_identitas':
-          include "kel_identitas.php";
+///////////////////////////////////////////////////////////////////////////////////////////
+          case 'vkon_data':
+          include "vkon_data.php";
           break;
 
-          case 'kel_identitas_edit':
-          include "kel_identitas_edit.php";
+          case 'vkon_tambah':
+          include "vkon_tambah.php";
           break;
+
+          case 'vkon_hapus':
+          $peg_nik    = $_GET['peg_nik'];
+          mysqli_query($koneksi,"DELETE FROM tb_kon WHERE kon_peg_nik = '$peg_nik'");
+          include "vkon_data.php";
+          break;
+
+          case 'vkel_data':
+          include "vkel_data.php";
+          break;
+
+          case 'vkel_tambah':
+          include "vkel_tambah.php";
+          break;
+
+          case 'vkel_hapus':
+          $kel_nik    = $_GET['kel_nik'];
+          mysqli_query($koneksi,"DELETE FROM tb_kel WHERE kel_nik = '$kel_nik'");
+          include "vkel_data.php";
+          break;          
+///////////////////////////////////////////////////////////////////////////////////////////
+/*
+          case 'zpeg_data':
+          include "zpeg_data.php";
+          break;
+
+          case 'zpeg_data2':
+          include "zpeg_data2.php";
+          break;
+*/
+///////////////////////////////////////////////////////////////////////////////////////////          
+          //case 'kel_hapus_semua':                         
+          //mysqli_query($koneksi,"DELETE FROM tb_kel");
+          //include "kel_data.php";
+          //break;
 ///////////////////////////////////////////////////////////////////////////////////////////
           case 'rekkon_data':
           include "rekkon_data.php";

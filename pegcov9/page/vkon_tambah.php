@@ -1,11 +1,3 @@
-<?php
-  $peg_id = $_GET['peg_id'];
-  $queryx  = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_id='$peg_id'");
-  $datax   = mysqli_fetch_array($queryx);
-  $peg_idx  = $datax['peg_id'];
-  $peg_nikx  = $datax['peg_nik'];
-?>
-
 <head>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -37,6 +29,7 @@
                 <div class="form-group" >
                   <label>Nama Pegawai Covid</label> <font color="red"> *</font> <br>
                   <select  class="myselect" name="kon_peg_nik" required="required" style="width:1210px;">
+                      <option></option>
                     <?php
                     $sql = $koneksi->query("SELECT * FROM tb_peg");
                         while ($data=$sql->fetch_assoc()) {
@@ -68,7 +61,6 @@
                   </select>  
                 </div>
 
-
                 <div class="form-group">
                   <label>Status Akhir</label><font color="red"> *</font>
                   <select name="kon_staakhir" class="form-control" required="required">
@@ -90,13 +82,13 @@
                 </div>                           
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////   -->                                
                   <input name="fsimpan" type="submit"  class="btn btn-sm btn-primary" value="Simpan">
-                  <a class="btn btn-sm btn-danger" href="?menu=kon_data">Batal</a>                            
+                  <a class="btn btn-sm btn-danger" href="?menu=vkon_data">Batal</a>                            
               </form>
               <?php 
                 if (isset($_POST['fsimpan'])) {
                   $kon_chosen       = $_POST['kon_peg_nik'];
-                  $query = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kon_chosen'");
-                  $chosen = mysqli_fetch_array($query);
+                  $query            = mysqli_query($koneksi,"SELECT * FROM tb_peg WHERE peg_nik='$kon_chosen'");
+                  $chosen           = mysqli_fetch_array($query);
 
                   $kon_peg_id       = $chosen['peg_id'];
                   $kon_peg_nama     = $chosen['peg_nama'];
@@ -107,6 +99,7 @@
                   
                   $kon_peg_stapeg   = $chosen['peg_stapeg'];
                   $kon_peg_org      = $chosen['peg_org'];
+                  $kon_peg_orgsat   = $chosen['peg_orgsat'];
                   $kon_peg_orgunit  = $chosen['peg_orgunit'];
 
                   $kon_tglswab      = $_POST['kon_tglswab'];
@@ -117,12 +110,52 @@
                   $kon_tgl          = $_POST['kon_tgl'];
                   $kon_tglinput     = date('Y-m-d');                             
 //////////////////////////////////////////////////////////   
-                  $q ="INSERT INTO tb_kon (kon_peg_id, kon_peg_nama, kon_peg_jk, kon_peg_tgllahir, kon_peg_nip, kon_peg_nik, kon_peg_stapeg, kon_peg_org, kon_peg_orgunit, kon_tglswab, kon_tglhasil, kon_starawat, kon_staakhir, kon_ket, kon_tgl, kon_tglinput) VALUES ('$kon_peg_id', '$kon_peg_nama', '$kon_peg_jk','$kon_peg_tgllahir', '$kon_peg_nip', '$kon_peg_nik', '$kon_peg_stapeg', '$kon_peg_org', '$kon_peg_orgunit', '$kon_tglswab', '$kon_tglhasil',  '$kon_starawat',  '$kon_staakhir', '$kon_ket', '$kon_tgl', '$kon_tglinput')";
+                  $q ="INSERT INTO 
+                    tb_kon (
+                      kon_peg_id, 
+                      kon_peg_nama, 
+                      kon_peg_jk, 
+                      kon_peg_tgllahir, 
+                      kon_peg_nip, 
+                      kon_peg_nik, 
+
+                      kon_peg_stapeg, 
+                      kon_peg_org, 
+                      kon_peg_orgsat, 
+                      kon_peg_orgunit, 
+
+                      kon_tglswab, 
+                      kon_tglhasil, 
+                      kon_starawat, 
+                      kon_staakhir, 
+                      kon_ket, 
+                      kon_tgl, 
+                      kon_tglinput
+                    ) VALUES (
+                      '$kon_peg_id', 
+                      '$kon_peg_nama', 
+                      '$kon_peg_jk',
+                      '$kon_peg_tgllahir', 
+                      '$kon_peg_nip', 
+                      '$kon_peg_nik', 
+
+                      '$kon_peg_stapeg', 
+                      '$kon_peg_org', 
+                      '$kon_peg_orgsat', 
+                      '$kon_peg_orgunit', 
+
+                      '$kon_tglswab', 
+                      '$kon_tglhasil',  
+                      '$kon_starawat',  
+                      '$kon_staakhir', 
+                      '$kon_ket', 
+                      '$kon_tgl', 
+                      '$kon_tglinput')";
                   mysqli_query($koneksi,$q);
               ?>
                 <script type="text/javascript">
                   alert('Berhasil menambah data kondisi pegawai covid');
-                  document.location.href="?menu=kon_data&peg_id=<?php echo $kon_peg_id; ?>";
+                  document.location.href="?menu=kon_data&peg_nik=<?php echo $kon_peg_nik; ?>";
                 </script>
               <?php } ?>
             </div>

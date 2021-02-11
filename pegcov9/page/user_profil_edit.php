@@ -13,7 +13,6 @@
 	</div>
 	<div class="row">
 		<section class="content">
-
 			<!-- Profil	-->	
 		    <div class="box box-default">
 		        <div class="box-header with-border">
@@ -26,8 +25,8 @@
 					
 								<form method="post">
 									<div class="form-group">
-									    <label>Nama</label>
-									    <input type="text" name="user_nama"  class="form-control" value="<?php echo $profil['user_nama']; ?>">
+									    <label>Nama</label><font color="red"> *</font>
+									    <input type="text" name="user_nama"  class="form-control" value="<?php echo $profil['user_nama']; ?>" required="required">
 									</div>
 									<div class="form-group">
 									    <label>Email</label>
@@ -39,40 +38,78 @@
 									</div>
 
 					                <div class="form-group">
-					                    <label>Organisasi</label>
+					                    <label>Organisasi (Eselon 1)</label><font color="red"> *</font>
 					                    <select name="user_org" class="form-control" required="required" >
+					                    <option class="form-control"></option>
 					                    <?php
 					                      $sqlo = $koneksi->query("SELECT * FROM tb_org");
 					                        while ($datao=$sqlo->fetch_assoc()) {
 					                    ?>
-					                    <option <?php if($datao['org_nama']==$profil['user_org']){ echo "selected";}?>
-					                    class="form-control" value="<?php echo $datao['org_nama']; ?>"><?php echo $datao['org_id']." ".$datao['org_nama']; ?></option>
+					                    <option <?php if($datao['org_id']==$profil['user_org']){ echo "selected";}?>
+					                    class="form-control" value="<?php echo $datao['org_id']; ?>"><?php echo $datao['org_id']." - ".$datao['org_nama']; ?></option>
 					                    <?php 
 					                      } 
 					                    ?>
 					                    </select> 
 					                </div>
 
+					                <div class="form-group">
+					                    <label>Satuan Organisasi (Eselon 2)</label><font color="red"> *</font>
+					                    <select name="user_orgsat" class="form-control" required="required" >
+					                    <option class="form-control"></option>
+					                    <?php
+					                      $sql_orgsat = $koneksi->query("SELECT * FROM tb_orgsat");
+					                        while ($data_orgsat=$sql_orgsat->fetch_assoc()) {
+					                    ?>
+					                    <option <?php if($data_orgsat['orgsat_id']==$profil['user_orgsat']){ echo "selected";}?>
+					                    class="form-control" value="<?php echo $data_orgsat['orgsat_id']; ?>"><?php echo $data_orgsat['orgsat_id']." - ".$data_orgsat['orgsat_nama']; ?></option>
+					                    <?php 
+					                      } 
+					                    ?>
+					                    </select> 
+					                </div>
+
+					                <div class="form-group">
+					                    <label>Unit Organisasi (Eselon 3)</label><font color="red"> *</font>
+					                    <select name="user_orgunit" class="form-control" required="required" >
+					                    	<option class="form-control"></option>
+					                    	<option <?php if("AAA"==$profil['user_orgunit']){ echo "selected";}?> class="form-control" value="AAA">AAA</option>
+					                    	<option <?php if("BBB"==$profil['user_orgunit']){ echo "selected";}?> class="form-control" value="BBB">BBB</option>
+					                    	<option <?php if("CCC"==$profil['user_orgunit']){ echo "selected";}?> class="form-control" value="CCC">CCC</option>
+					                    </select> 
+					                </div>
+
 									<div class="form-group">
-									    <label>NIP</label>
-									    <input type="text" name="user_nip"  class="form-control" value="<?php echo $profil['user_nip']; ?>">
+									    <label>NIP</label><font color="red"> *</font>
+									    <input type="text" name="user_nip"  class="form-control" value="<?php echo $profil['user_nip']; ?>" required="required">
 									</div>
 									<div class="form-group">
-									    <label>NIK</label>
-									    <input type="text" name="user_nik"  class="form-control" value="<?php echo $profil['user_nik']; ?>">
+									    <label>NIK</label><font color="red"> *</font>
+									    <input type="text" name="user_nik"  class="form-control" value="<?php echo $profil['user_nik']; ?>" required="required">
 									</div>
 						  			<input type="submit" name="user_profil_edit" class="btn btn-sm btn-primary" value="Simpan">
 										<a class="btn btn-sm btn-danger" href="?menu=user_profil">Batal</a>
 								</form>
 								<?php 
 									if (isset($_POST['user_profil_edit'])) {
-										$user_nama 	= $_POST['user_nama'];
-										$user_email = $_POST['user_email'];
-										$user_telp 	= $_POST['user_telp'];
-										$user_org 	= $_POST['user_org'];
-										$user_nip 	= $_POST['user_nip'];
-										$user_nik 	= $_POST['user_nik'];
-										mysqli_query($koneksi,"UPDATE tb_user SET user_nama='$user_nama', user_email='$user_email', user_telp='$user_telp', user_org='$user_org' , user_nip='$user_nip' , user_nik='$user_nik' WHERE user_id='$profil[user_id]'");
+										$user_nama 		= $_POST['user_nama'];
+										$user_email 	= $_POST['user_email'];
+										$user_telp 		= $_POST['user_telp'];
+										$user_org 		= $_POST['user_org'];
+										$user_orgsat	= $_POST['user_orgsat'];
+										$user_orgunit	= $_POST['user_orgunit'];
+										$user_nip 		= $_POST['user_nip'];
+										$user_nik 		= $_POST['user_nik'];
+										mysqli_query($koneksi,"UPDATE tb_user SET 
+											user_nama 	 	= '$user_nama', 
+											user_email 	 	= '$user_email', 
+											user_telp 	 	= '$user_telp', 
+											user_org 	 	= '$user_org' , 
+											user_orgsat  	= '$user_orgsat', 
+											user_orgunit 	= '$user_orgunit', 
+											user_nip 		= '$user_nip', 
+											user_nik 		= '$user_nik' 
+											WHERE user_id 	= '$profil[user_id]'");
 										?>
 										<script type="text/javascript">
 											alert('Profil berhasil dirubah');
