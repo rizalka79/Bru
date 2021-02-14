@@ -23,7 +23,7 @@
           <div class="nav-tabs-custom">
           <div class="small-box bg-green" style="background-color: #42a64e !important;">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
+              <h3>50.100</h3>
 
               <p>Jumlah Pegawai</p>
             </div>
@@ -45,7 +45,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Pegawai COVID19</span>
-              <span class="info-box-number">90<small>%</small></span>
+              <span class="info-box-number">558</span>
             </div>
            </div>
           </div>
@@ -56,7 +56,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Pegawai Sembuh</span>
-              <span class="info-box-number">41,410</span>
+              <span class="info-box-number">500</span>
               </div>
            </div>
           </div>
@@ -70,7 +70,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Keluarga COVID19</span>
-              <span class="info-box-number">760</span>
+              <span class="info-box-number">215</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -83,7 +83,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Keluarga Sembuh</span>
-              <span class="info-box-number">2,000</span>
+              <span class="info-box-number">210</span>
             </div>
             <!-- /.info-box-content -->
           </div>
