@@ -6,7 +6,7 @@ $result = mysqli_query($connect, $query);
 $result2 = mysqli_query($connect, $query2);  
 //$result = 100;  
  ?>
- <div class="box box-success" style="">
+ <div class="box box-success" style="height: 320px !important;">
             <div class="box-header with-border">
               <h3 class="box-title">POSITIF COVID19</h3>
 
@@ -18,12 +18,12 @@ $result2 = mysqli_query($connect, $query2);
             </div>
             <div class="box-body">
               <div class="chart">
-                <canvas id="month" style=""></canvas>
+                <canvas id="month_fm" style="margin-top: 10px !important"></canvas>
               </div>
             </div>
       </div>
 <script>
-new Chart(document.getElementById("month"), {
+new Chart(document.getElementById("month_fm"), {
     type: 'bar',
     data: {
       labels: ["Januari", "Februari", "Maret", "April"],
@@ -39,7 +39,7 @@ new Chart(document.getElementById("month"), {
       legend: { display: false },
       title: {
         display: true,
-        text: 'Positif COVID19(2020)'
+        text: 'Positif COVID19'
       }
     }
 });

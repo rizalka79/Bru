@@ -7,7 +7,7 @@ $result2 = mysqli_query($connect, $query2);
 //$result = 100;  
  ?>
 <script src="https://code.highcharts.com/highcharts.js"></script>
-<div class="box box-success" style="">
+<div class="box box-success" style="height: 320px !important;">
             <div class="box-header with-border">
               <h3 class="box-title">DALAM PERAWATAN</h3>
 
@@ -19,12 +19,12 @@ $result2 = mysqli_query($connect, $query2);
             </div>
             <div class="box-body">
               <div class="chart">
-                <canvas id="kondisi"></canvas>
+                <canvas id="kondisi_fm" width="800" height="450"></canvas>
               </div>
             </div>
 </div>
 <script>
- new Chart(document.getElementById("kondisi"), {
+ new Chart(document.getElementById("kondisi_fm"), {
   type: 'line',
   data: {
     labels: ["Januari", "Februari", "Maret"],

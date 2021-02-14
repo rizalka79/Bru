@@ -21,20 +21,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="../lte/dist/css/AdminLTE.min.css">
-    <!-- <link rel="stylesheet" href="../lte/dist/css/skins/skin-blue.min.css"> -->
     <link rel="stylesheet" href="../lte/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="../lte/dist/css/skins/_all-skins.css">
     <link rel="icon" href="../lte/favcon/pegcov.ico">
+    <link rel="stylesheet" href="../inc/mystyle.css">
+
     <!-- style="background-color: #000000 !important"" -->
   </head>
-  <body class="hold-transition skin-blue sidebar-min">
+  <body class="hold-transition skin-green">
   <div class="wrapper">
     <header class="main-header">
-      <a href="" class="logo">
-        <span class="logo-mini"><b>U</b>ser</span>
-        <span class="logo-lg"><b>U</b>ser</span>
+      <a href="" class="logo" style=" background-color: #1d2529 !important">
+       <img src="kmk.png" alt="" style="width: 30px !important;">
+        
       </a>
-      <nav class="navbar skin-blue navbar-static-top" role="navigation">
+      <nav class="navbar  navbar-static-top" role="navigation">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
@@ -42,12 +43,12 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../lte/dist/img/user1.png" class="user-image" alt="User Image"> 
+              <img src="../lte/dist/img/m.png" class="user-image" alt="User Image"> 
               <span class="hidden-xs"><span class="glyphicon glyphicon-triangle-bottom"></span></span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
-                <img src="../lte/dist/img/user1.png" class="img-circle" alt="User Image"> 
+                <img src="../lte/dist/img/m.png" class="img-circle" alt="User Image"> 
                 <p>
                   <?php echo $profil['user_name']; ?>
                   <small><?php echo $profil['user_nama']; ?></small><br>
@@ -68,11 +69,11 @@
     </nav>
   </header>
 
-    <aside class="main-sidebar">
-    <section class="sidebar">
+    <aside class="main-sidebar" style=" background-color: #1d2529 !important">
+    <section class="sidebar" style="color: #ffffff !important">
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../lte/dist/img/user1.png" class="img-circle" alt="User Image">
+          <img src="../lte/dist/img/m.png" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $profil['user_nama']; ?></p>
@@ -85,7 +86,7 @@
         @$menu= $_GET['menu'];
       ?>
       <ul class="sidebar-menu">
-        <li class="header">Menu</li>
+        <li class="header"></li>
 <!-- /////////////////////////////////////////////////////////////////////////////////////// -->
         <li <?php if (
 
@@ -94,8 +95,8 @@
 
           ){echo "class='active'";} ?>>
             <a href="?menu=dashboard">
-              <i class="fa fa-dashboard"></i> 
-              <span>Beranda
+              <i class="fa fa-dashboard" style="color: #ffffff !important"></i> 
+              <span style="color: #ffffff !important">Beranda
               </span>
             </a>
         </li>
@@ -416,7 +417,7 @@
   <footer class="main-footer">
     <div class="pull-right hidden-xs">      
     </div>
-    <strong><a href="">Pegcov1</a> &copy; 2021 </a>
+    <strong><a href="">Pusat Data dan Informasi Kementerian Kesehatan</a> &copy; 2021 </a>
   </footer>
   <div class="control-sidebar-bg"></div>
 </div>

@@ -1,14 +1,14 @@
 <?php  
-$connect = mysqli_connect("localhost", "root", "", "pegcovid2");  
-$query = "SELECT * FROM tb_rekkon";  
-$query2 = "SELECT * FROM tb_rekkon";  
+$connect = mysqli_connect("localhost", "root", "", "pegcov1");  
+$query = "SELECT kon_peg_jk, count(*) as number FROM tb_kon GROUP BY kon_peg_jk"; 
+$query2 = "SELECT kon_peg_jk, count(*) as number FROM tb_kon GROUP BY kon_peg_jk";  
 $result = mysqli_query($connect, $query);  
 $result2 = mysqli_query($connect, $query2);  
 //$result = 100;  
  ?>
- <div class="box box-success" style="">
+  <div class="box box-success" style="">
             <div class="box-header with-border">
-              <h3 class="box-title">POSITIF COVID19</h3>
+              <h3 class="box-title">SEMBUH</h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -18,28 +18,31 @@ $result2 = mysqli_query($connect, $query2);
             </div>
             <div class="box-body">
               <div class="chart">
-                <canvas id="month" style=""></canvas>
+                <canvas id="final"></canvas>
               </div>
             </div>
-      </div>
+</div>
 <script>
-new Chart(document.getElementById("month"), {
+ new Chart(document.getElementById("final"), {
     type: 'bar',
     data: {
-      labels: ["Januari", "Februari", "Maret", "April"],
+      labels: ["Januari", "Februari", "Maret"],
       datasets: [
         {
-          label: "",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [400,250,240,300]
+          label: "Sembuh",
+          backgroundColor: "#3e95cd",
+          data: [133,221,383]
+        }, {
+          label: "Meninggal",
+          backgroundColor: "red",
+          data: [20,10,35]
         }
       ]
     },
     options: {
-      legend: { display: false },
       title: {
         display: true,
-        text: 'Positif COVID19(2020)'
+        text: 'SEMBUH(2020)'
       }
     }
 });
