@@ -1,0 +1,48 @@
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: rgb(75, 187, 103);
+    }
+
+    .row {
+        background: white;
+        border-radius: 30px;
+        /* height: 1000px; */
+        box-shadow: 12px 12px 22px rgb(69, 119, 78);
+    }
+
+    #refresh {
+        position: relative;
+        left: 230px;
+        width: 30px;
+        height: 30px;
+        bottom: 45px;
+        background-image: url(rpt.jpg);
+    }
+
+    img {
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+    }
+
+    .btn1 {
+        border: none;
+        outline: none;
+        cursor: pointer;
+        height: 50px;
+        width: 100%;
+        background-color: rgb(58, 156, 110);
+        color: white;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .btn1:hover {
+        background: rgb(73, 184, 116);
+        border: 1px solid white;
+
+    }
